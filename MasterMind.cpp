@@ -7,6 +7,10 @@
 
 using namespace std;
 
+bool esNumero(char c) {
+    return (c >= '1' && c <= '6');
+}
+
 int main()
 {
     // Arrays
@@ -40,15 +44,26 @@ int main()
     cout << "Bienvenido al juego MasterMind\n";
     cout << "Debes introducir 4 digitos del 1-6 y adivinar la combinacion\n";
 
-    // MÈtodo para verificar si los 4 dÌgitos base son iguales a los introducidos por el jugador
+    // M√©todo para verificar si los 4 d√≠gitos base son iguales a los introducidos por el jugador
     for (int intentos = 1; intentos <= 10 && !ganaste; ++intentos)
     {
-        correctas = 0; // Reiniciamos el contador de dÌgitos correctos para cada intento
+        correctas = 0; // Reiniciamos el contador de d√≠gitos correctos para cada intento
         cout << "Intento " << intentos << ": \n";
         //Ingresar numero
         for (int i = 0; i < 4; i++) {
-            cout << "Ingrese el numero " << 1 + i << " ==>";
-            cin >> numerosUsuario[i];
+            char input;
+            do {
+                cout << "Ingrese el numero " << 1 + i << " (1-6) ==>";
+                cin >> input;
+
+                // Validar si el caracter ingresado es un n√∫mero
+                if (!esNumero(input)) {
+                    cout << "Caracter no valido. Ingrese un numero del 1 al 6." << endl;
+                }
+            } while (!esNumero(input));
+
+            // Convertir el caracter a un n√∫mero entero
+            numerosUsuario[i] = input - '0';
         }
         //Verificar numeros
         for (int j = 0; j < 4; j++) {
@@ -58,7 +73,7 @@ int main()
                 if (correctas == 4) {
                     cout << "\nGanaste\n";
                     ganaste = true; // Cambiamos la variable ganaste a verdadero para salir del bucle
-                    break; // Salimos del bucle for porque ya adivinÛ el patrÛn
+                    break; // Salimos del bucle for porque ya adivin√≥ la clave
                 }
             }
             else if (numerosUsuario[j] == numerosBase[0] || numerosUsuario[j] == numerosBase[1] || numerosUsuario[j] == numerosBase[2] || numerosUsuario[j] == numerosBase[3])
@@ -69,11 +84,11 @@ int main()
                 cout << "|X|";
             }
         }
-        cout << endl; // Agregamos una nueva lÌnea despuÈs de imprimir cada intento
+        cout << endl; // Agregamos una nueva l√≠nea despu√©s de imprimir cada intento
     }
 
     if (!ganaste) {
-        cout << "Perdiste. La clave era: ";
+        cout << "Perdiste. El patr√≥n oculto era: ";
         for (int i = 0; i < 4; ++i) {
             cout << numerosBase[i] << " ";
         }
